@@ -48,6 +48,7 @@ from django.views.decorators.csrf import csrf_exempt
 from cryptography.fernet import Fernet, InvalidToken
 from google.protobuf import message
 from allauth.socialaccount import models as allauth_models
+from oauth2_provider.views.generic import ProtectedResourceView
 
 from . import models
 
@@ -1486,6 +1487,11 @@ def slackapi(request):
     if request.POST.get('team_id', '') not in allowed_teams:
       raise PermissionDenied()
   return _slackapi(request)
+
+
+class DLCApiEndpoint(ProtectedResourceView):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse('Hello, DLC')
 
 
 immaculater.InitFlags()
